@@ -22,17 +22,9 @@
                 <img class="card-img-top img-fluid rounded mx-auto d-block" src="{{news.urlToImage}}" alt="">
                 <div class="card-body">
                     <h4 class="card-title text-muted text-center">{{news.title}}</h4>
-                    {% if user.is_authenticated %}
-                    {% if task.pin %}
-                    <a class="btn btn-outline-secondary text-left" href="{% url 'changePin' id=task.id %}"
-                        data-toggle="tooltip" data-placement="top" title="Unpin Task">
-                        <i class="fas fa-unlink"></i>
-                    </a>
-                    {% else %}
-                    {% endif %}
                     <p class="card-text lead">{{news.description}}</p>
                     <blockquote class="blockquote mb-0">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                        <a href="{{news.url}}"></a>
                         <footer class="blockquote-footer">
                             <small class="text-muted">
                                 Author <cite title="Source">{{news.author}}</cite>

@@ -3,6 +3,7 @@ chardet==3.0.4
 Deprecated==1.2.6
 dj-database-url==0.5.0
 Django==2.2.3
+gunicorn==19.9.0
 idna==2.8
 newsapi-python==0.2.5
 psycopg2==2.8.3
