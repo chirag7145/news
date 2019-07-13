@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>News API</h2>
+
+<div class="container m-5">
+    <form method="get" class="form-row">
+        <input class="form-control mb-2" type="text" name="country" placeholder="Country-Code">
+        <input class="form-control mb-2" type="text" name="category" placeholder="Category">
+        <button type="submit" class="btn btn-primary">Search on country code</button>
+    </form>
+</div>
+
+{% if articles %}
+
+{% for news in articles %}
+{% if news.urlToImage and news.source.name and news.description %}
+<div class="container">
+    <div class="row justify-content-between mb-4">
+        <div class="col-md-8 offset-md-2">
+            <div class="card max-width: 540px;">
+                <img class="card-img-top img-fluid rounded mx-auto d-block" src="{{news.urlToImage}}" alt="">
+                <div class="card-body">
+                    <h4 class="card-title text-muted text-center">{{news.title}}</h4>
+                    {% if user.is_authenticated %}
+                    {% if task.pin %}
+                    <a class="btn btn-outline-secondary text-left" href="{% url 'changePin' id=task.id %}"
+                        data-toggle="tooltip" data-placement="top" title="Unpin Task">
+                        <i class="fas fa-unlink"></i>
+                    </a>
+                    {% else %}
+                    {% endif %}
+                    <p class="card-text lead">{{news.description}}</p>
+                    <blockquote class="blockquote mb-0">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                        <footer class="blockquote-footer">
+                            <small class="text-muted">
+                                Author <cite title="Source">{{news.author}}</cite>
+                            </small>
+                        </footer>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endblock content %}
