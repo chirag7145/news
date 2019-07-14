@@ -10,7 +10,7 @@ def home(request):
     content = {}
     country = ""
     category = ""
-
+    top_headlines = {"status": "400"}
     if 'country' in request.GET:
         country = request.GET['country']
         country = country.lower()
