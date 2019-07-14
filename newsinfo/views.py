@@ -24,10 +24,10 @@ def home(request):
         top_headlines = newsapi.get_top_headlines(
             country=country, language='en')
 
-        status = top_headlines['status']
-        if status == 'ok':
-            totalResults = top_headlines['totalResults']
-            articles = top_headlines['articles']
-            content = {'status': status,
-                       'totalResults': totalResults, 'articles': articles}
+    status = top_headlines['status']
+    if status == 'ok':
+        totalResults = top_headlines['totalResults']
+        articles = top_headlines['articles']
+        content = {'status': status,
+                   'totalResults': totalResults, 'articles': articles}
     return render(request, 'news.html', content)
