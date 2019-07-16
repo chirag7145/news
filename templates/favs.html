@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>News API</h2>
+
+<!-- {% if articles %} -->
+{% for news in articles %}
+<!-- {% if news.image and news.source and news.description %} -->
+<div class="container">
+    <div class="row justify-content-between mb-4">
+        <div class="col-md-8 offset-md-2">
+            <div class="card max-width: 540px;">
+                <img class="card-img-top img-fluid rounded mx-auto d-block" src="{{news.image}}" alt="">
+                <div class="card-body">
+                    <h4 class="card-title text-muted text-center"><a target="blank"
+                            href="{{news.url}}">{{news.title}}</a></h4>
+                    <p class="card-text lead">{{news.description}}</p>
+                    <blockquote class="blockquote mb-0">
+                        <footer class="blockquote-footer">
+                            <small class="text-muted">
+                                Author <cite title="Source">{{news.author}}</cite>
+                                {% if user.is_authenticated %}
+                                <form action="{% url 'home' %}" method="get" class="form-row">
+                                    <input style="display: none;" class="form-control mb-2" type="text" name="country"
+                                        placeholder="Country-Code" value="{{country}}">
+                                    <input style="display: none;" class="form-control mb-2" type="text" name="category"
+                                        placeholder="Category" value="{{category}}">
+                                    <input style="display: none;" class="form-control mb-2" type="text" name="article"
+                                        placeholder="Article" value="{{forloop.counter0}}">
+                                    <button class="btn btn-primary" type="submit">Like</button>
+                                </form>
+                                {% endif %}
+                            </small>
+                        </footer>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- {% endif %} -->
+{% endfor %}
+{% endif %}
+{% endblock content %}
