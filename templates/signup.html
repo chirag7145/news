@@ -1,0 +1,45 @@
+{% extends 'index.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block form %}
+<div class="col-lg-4 mb-5">
+    <div class="card bg-dark text-center card-form">
+        <div class="card-body">
+            <h3 class="text-primary border border-primary p-3 ">Sign Up</h3>
+            <p class="text-muted">Please fill out this form to register</p>
+            <form id="signup-form" class="text-dark" method="post" nonvalidate>{% csrf_token %}
+                {{form|crispy}}
+                <input type="submit" value="Submit" class="btn btn-outline-primary btn-block">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock form %}
+
+
+{% block script %}
+{{ block.super }}
+<script>
+    document.querySelector('#hint_id_username').classList += ' smallClass';
+    document.querySelector('#hint_id_password1').classList += ' smallClass';
+    document.querySelector('#hint_id_password2').classList += ' smallClass';
+    document.querySelector('#hint_id_email').classList += ' smallClass';
+
+    const idUsername = document.querySelector('#id_username');
+    const idPassword = document.querySelector('#id_password1');
+    const idConfirmPassword = document.querySelector('#id_password2');
+    const idEmail = document.querySelector('#id_email');
+
+    idUsername.placeholder = 'Username....';
+    idUsername.classList += ' p-3';
+    idPassword.placeholder = 'Password....';
+    idPassword.classList += ' p-3';
+    idConfirmPassword.placeholder = 'Confirm Password....';
+    idConfirmPassword.classList += ' p-3';
+    idEmail.placeholder = 'Email....';
+    idEmail.classList += ' p-3';
+
+    $('#signup-form label').remove()
+</script>
+{% endblock script %}
