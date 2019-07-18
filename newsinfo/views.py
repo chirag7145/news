@@ -34,7 +34,7 @@ def signup(request):
             user.is_active = False
             user.save()
             current_site = get_current_site(request)
-            subject = 'Activate Your on online-news.herokuapp.com'
+            subject = 'Activate your account on online-news.herokuapp.com'
             message = render_to_string('account_activation_email.html', {
                 'user': user,
                 'domain': current_site.domain,

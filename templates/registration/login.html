@@ -1,38 +1,41 @@
-{% extends 'index.html' %}
+{% extends 'base.html' %}
 
 {% load crispy_forms_tags %}
 
-{% block form %}
-<div class="col-lg-4 mb-5">
-    <div class="card bg-dark text-center card-form">
-        <div class="card-body">
-            <h3 class="text-primary border border-primary p-3 ">Log In</h3>
-            <p class="text-muted">Please fill out this form to login</p>
-            <form id="login-form" class="text-dark" method="post" nonvalidate>{% csrf_token %}
-              {{ form.username|as_crispy_field }}
-              {{ form.password|as_crispy_field }}
-              <div class="text-right ml-auto mb-2">
-                <a href="{% url 'password_reset' %}">Forgot Password?</a>
+{% block content %}
+<div class="container m-5">
+    <div class="row justify-content-between my-5">
+        <div class="col-md-6 offset-md-3 my-5">
+            <div class="mb-5 card bg-dark text-center card-form">
+                <div class="card-body">
+                    <h3 class="text-primary border border-primary p-3 ">Log In</h3>
+                    <p class="text-muted">Please fill out this form to login</p>
+                    <form id="login-form" class="text-dark" method="post" nonvalidate>{% csrf_token %}
+                        {{ form.username|as_crispy_field }}
+                        {{ form.password|as_crispy_field }}
+                        <div class="text-right ml-auto mb-2">
+                            <a href="{% url 'password_reset' %}">Forgot Password?</a>
+                        </div>
+                        <input type="submit" value="Submit" class="btn btn-outline-primary btn-block">
+                    </form>
+                </div>
             </div>
-                <input type="submit" value="Submit" class="btn btn-outline-primary btn-block">
-            </form>
         </div>
     </div>
 </div>
-{% endblock form %}
-
+{% endblock content %}
 
 {% block script %}
 {{ block.super }}
 <script>
     const idUsername = document.querySelector('#id_username');
     const idPassword = document.querySelector('#id_password');
-    
+
     idUsername.placeholder = 'Username....';
     idUsername.classList += ' p-3';
     idPassword.placeholder = 'Password....';
     idPassword.classList += ' p-3';
-    
+
     $('#login-form label').remove()
-</script> 
+</script>
 {% endblock script %}

@@ -1,12 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>News API</h2>
 
-<!-- {% if articles %} -->
-{% for news in articles %}
-<!-- {% if news.image and news.source and news.description %} -->
-<div class="container">
+<div class="container my-5">
+    {% if articles %}
+    {% for news in articles %}
+
     <div class="row justify-content-between mb-4">
         <div class="col-md-8 offset-md-2">
             <div class="card max-width: 540px;">
@@ -39,10 +38,11 @@
             </div>
         </div>
     </div>
+    {% endfor %}
+    {% else %}
+    <h4 class="display-4 py-3">Please add something to your favorite section</h4>
+    {% endif %}
 </div>
-<!-- {% endif %} -->
-{% endfor %}
-{% endif %}
 {% endblock content %}
 
 {% block script %}
