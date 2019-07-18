@@ -29,6 +29,8 @@
                                         placeholder="Article" value="{{forloop.counter0}}">
                                     <button class="btn btn-primary" type="submit">Like</button>
                                 </form>
+                                <a class="btn btn-primary m-3" href="{% url 'delete' id=news.id %}"
+                                    role="button">Delete</a>
                                 {% endif %}
                             </small>
                         </footer>
@@ -42,3 +44,11 @@
 {% endfor %}
 {% endif %}
 {% endblock content %}
+
+{% block script %}
+
+<script>
+    console.log(window.location.href);
+</script>
+
+{% endblock script %}

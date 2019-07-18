@@ -3,7 +3,7 @@ import requests
 from newsapi import NewsApiClient
 from decouple import config
 from .models import *
-
+from .choices import *
 
 from django.http import HttpResponseRedirect
 from django.conf import settings
@@ -34,7 +34,7 @@ def signup(request):
             user.is_active = False
             user.save()
             current_site = get_current_site(request)
-            subject = 'Activate Your MySite Account'
+            subject = 'Activate Your on online-news.herokuapp.com'
             message = render_to_string('account_activation_email.html', {
                 'user': user,
                 'domain': current_site.domain,
@@ -62,14 +62,13 @@ def home(request):
     if 'category' in request.GET:
         category = request.GET['category']
         category = category.lower()
-    if category and country:
+    if category and country and country in country_list and category in category_list:
         top_headlines = newsapi.get_top_headlines(
             category=category, country=country, language='en')
         if request.user.is_authenticated:
             print(request.user)
             if 'article' in request.GET:
                 article = request.GET['article']
-                # article = article.lower()
                 print(article)
                 print(top_headlines['articles'][int(article)])
                 news = top_headlines['articles'][int(article)]
@@ -88,13 +87,37 @@ def home(request):
                     liked.objects.create_obj(
                         user, category, country, author, image, date, source, url, title, description)
 
-    elif country:
+    elif country and country in country_list:
         top_headlines = newsapi.get_top_headlines(
             country=country, language='en')
+        # top_headlines = newsapi.get_everything(q=country)
+        if request.user.is_authenticated:
+            print(request.user)
+            if 'article' in request.GET:
+                article = request.GET['article']
+                print(article)
+                print(top_headlines['articles'][int(article)])
+                news = top_headlines['articles'][int(article)]
+                newsExist = liked.objects.filter(url=news['url']).exists()
+                if newsExist == False:
+                    user = request.user
+                    category = category
+                    country = country
+                    author = news['author']
+                    image = news['urlToImage']
+                    date = news['publishedAt']
+                    source = news['source']['name']
+                    url = news['url']
+                    title = news['title']
+                    description = news['description']
+                    liked.objects.create_obj(
+                        user, category, country, author, image, date, source, url, title, description)
 
     status = top_headlines['status']
     if status == 'ok':
         totalResults = top_headlines['totalResults']
+        if totalResults == 0:
+            return redirect('home')
         articles = top_headlines['articles']
         content = {'status': status,
                    'totalResults': totalResults, 'articles': articles, 'country': country, 'category': category}
@@ -103,10 +126,17 @@ def home(request):
 
 def favourite(request):
     if request.user.is_authenticated:
-        favs = liked.objects.all()
+        favs = liked.objects.filter(user=request.user)
         return render(request, 'favs.html', {'articles': favs})
     # else:
         # return render(request, "<h1>NOT FOUND</h1>")
+
+
+def delete(request, id=None):
+    if request.user.is_authenticated:
+        news = get_object_or_404(liked, id=id)
+        news.delete()
+    return redirect('fav')
 
 
 def activate(request, uidb64, token):
