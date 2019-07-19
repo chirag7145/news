@@ -58,11 +58,9 @@ def home(request):
     top_headlines = {"status": "400"}
     if 'country' in request.GET:
         country = request.GET['country']
-        country = country.lower()
     if 'category' in request.GET:
         category = request.GET['category']
-        category = category.lower()
-    if category and country and country in country_list and category in category_list:
+    if category and country:
         top_headlines = newsapi.get_top_headlines(
             category=category, country=country, language='en')
         if request.user.is_authenticated:
@@ -87,7 +85,7 @@ def home(request):
                     liked.objects.create_obj(
                         user, category, country, author, image, date, source, url, title, description)
 
-    elif country and country in country_list:
+    elif country:
         top_headlines = newsapi.get_top_headlines(
             country=country, language='en')
         # top_headlines = newsapi.get_everything(q=country)
